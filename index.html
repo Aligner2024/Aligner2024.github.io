@@ -73,6 +73,20 @@
     window.addEventListener("scroll", onScroll);
 </script> -->
 
+<script>
+    function detectDeviceType() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        if (/mobile/i.test(userAgent)) {
+            return 'Mobile';
+        } else {
+            return 'Desktop';
+        }
+    }
+
+    console.log(detectDeviceType());
+</script>
+<!-- TBD -->
+
 <style type="text/css">
 body {
     font-family: "Titillium Web", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -1266,6 +1280,12 @@ pre {
             <br>
             <details>
                 <summary style="font-size: 18px;"><b>Question #7: Why we care only about LLM's helpfulness and harmlessness? Does <i>Aligner</i> work in any other aspects?</b></summary>
+                When measuring the alignment of LLMs with human values and intentions, one of the widely accepted criteria is the 3H principles (Helpful, Harmless, Honest) 
+                <cite>
+                    Training a helpful and harmless assistant with  reinforcement learning from human feedback.
+                </cite>
+                .However,  the evaluation of honesty is more challenging. Therefore, we chose two widely accepted dimensions for evaluation: Helpfulness and Harmlessness. We selected datasets from two published works: Beavertails
+                <cite>
                     Beavertails: Towards improved safety alignment of LLM via a human-preference dataset.
                 </cite>
                 and HarmfulQA 
