@@ -648,7 +648,7 @@ pre {
     <h2>Abstract</h2>
     <div class="flex-row">
         <p>
-            Efforts to align Large Language Models (LLMs) are mainly conducted via Reinforcement Learning from Human Feedback (RLHF) methods. However, RLHF encounters major challenges including training reward models, actor-critic engineering, and importantly, it requires access to LLM parameters. Here we introduce  <i>Aligner</i>, a new efficient alignment paradigm that bypasses the whole RLHF process by learning the correctional residuals between the aligned and the unaligned answers. Our  <i>Aligner</i> offers several key advantages. Firstly, it is an autoregressive seq2seq model that is trained on the query-answer-correction dataset via supervised learning; this offers a parameter-efficient alignment solution with minimal resources. Secondly, the  <i>Aligner</i> facilitates weak-to-strong generalization; finetuning large pretrained models by  <i>Aligner</i>'s supervisory signals demonstrates strong performance boost. Thirdly,  <i>Aligner</i> functions as a model-agnostic plug-and-play module, allowing for its direct application on different open-source and API-based models. Remarkably,  <i>Aligner</i>-7B improves 11 different LLMs by \( 21.9\% \) in helpfulness and \( 23.8\% \) in harmlessness on average (GPT-4 by \( 17.5\% \) and \( 26.9\% \)). When finetuning (strong) Llama2-70B with (weak)  <i>Aligner</i>-13B's supervision, we can improve Llama2 by \( 8.2\% \) in helpfulness and \( 61.6\% \) in harmlessness.
+            Efforts to align Large Language Models (LLMs) are mainly conducted via Reinforcement Learning from Human Feedback (RLHF) methods. However, RLHF encounters major challenges including training reward models, actor-critic engineering, and importantly, it requires access to LLM parameters. Here we introduce <i>Aligner</i>, a new efficient alignment paradigm that bypasses the whole RLHF process by learning the correctional residuals between the aligned and the unaligned answers. Our <i>Aligner</i> offers several key advantages. Firstly, it is an autoregressive seq2seq model trained on the query-answer-correction dataset via supervised learning; this offers a parameter-efficient alignment solution with minimal resources. Secondly, the <i>Aligner</i> facilitates <i>weak-to-strong generalization</i>; finetuning large pretrained models by <i>Aligner</i>'s supervisory signals demonstrates strong performance boost. Thirdly, <i>Aligner</i> functions as a model-agnostic plug-and-play module, allowing for its direct application on different open-source and API-based models. Remarkably, <i>Aligner</i>-7B improves 11 different LLMs by \(21.9\%\) in helpfulness and \(23.8\%\) in harmlessness on average (GPT-4 by \(17.5\%\) and \(26.9\%\)). When finetuning (strong) Llama2-70B with (weak) <i>Aligner</i>-13B's supervision, we can improve Llama2 by \(8.2\%\) in helpfulness and \(61.6\%\) in harmlessness.
         </p>
     </div>
     </section>
@@ -660,7 +660,7 @@ pre {
             <center><figcaption style="text-align: left;">
                 <strong>Architecture of the <i>Aligner</i> module and illustration of its behavior in semantic space.</strong>
                 <br>
-                The <i>Aligner</i>, a plug-and-play model <span class="red-bold-italic" >(without RLHF)</span>, stacks upon an upstream LLM (aligned or unaligned). It redistributes initial answers from the upstream model into more helpful and harmless answers, thus aligning the composed LLM responses with human intentions. It is challenging to learn direct mappings from queries to aligned answers. Nonetheless, correcting answers based on the upstream model’s output is a more tractable learning task.
+                The <i>Aligner</i>, a plug-and-play model <span class="red-bold-italic" >(without RLHF)</span>, stacks upon an upstream LLM (aligned or unaligned). It redistributes initial answers from the upstream model into more helpful and harmless answers, thus aligning the composed LLM responses with human intentions. It is challenging to learn direct mappings from queries to aligned answers. Nonetheless, correcting answers based on the upstream model's output is a more tractable learning task.
             </figcaption></center>
         </figure>
         <br>
@@ -721,7 +721,7 @@ pre {
                 <center><img class="card-img-top" src="./materials/Tab3_nocap.jpg" width="950"/></center>
                 <center><figcaption style="text-align: left;">
                     <b>Performance of <i>Aligner</i> Models</b><br>
-                     It is shown that <i>Aligner</i> achieves significant performances in all the settings. All assessments in this table were conducted based on integrating various models with <i>Aligners</i> to compare with the original models to quantify the percentage increase in helpfulness and harmlessness. The background color represents the type of target language model: green represents API-based models, orange represents open-source models without safety alignment, and blue represents safety-aligned open-source models. The icon <i class="fas fa-lock" style="color: rgba(0, 0, 0, 0.7);"></i> <!-- 70% 黑色 --> indicates the model parameters are not accessible and <i class="fas fa-shield-alt" style="color: rgba(0, 0, 0, 0.7);"></i> <!-- 表示 70% 黑色的 FontAwesome 图标 --> indicates the model is safety-aligned. 
+                    It is shown that <i>Aligner</i> achieves significant performances in all the settings. All assessments in this table were conducted based on integrating various models with Aligners to compare with the original models to quantify the percentage increase in the <i>3H</i> standard. When integrated and assessed in conjunction with various upstream models, the <i>Aligner</i> requires only a single training session (<i>i.e.</i>, the <i>Aligner</i> can operate in a zero-shot manner and enhance the performance of all upstream models.)
                     
                 </figcaption></center>
             </figure>
@@ -859,7 +859,7 @@ pre {
         <h2>Detailed Results</h2>
             <br><br>
             <figure class="mx-auto">
-                <center><img class="card-img-top" src="materials/table_2.jpg" style="width:550px"></center>
+                <center><img class="card-img-top" src="materials/table_2.jpg" style="width:750px"></center>
                 <br>
                 <figcaption style="text-align: left;">
                     <b><i>Weak-to-strong generalization</i> results</b><br>
@@ -869,6 +869,17 @@ pre {
             <hr>
             <br>
             
+            <figure class="mx-auto">
+                <center><img class="card-img-top" src="materials/Tab4_new.jpg" style="width:950px"></center>
+                <br>
+                <figcaption style="text-align: left;">
+                    <b>Abalation Study: Different <i>Identity Mapping</i> Proportions</b><br>
+                    We first trained an identity <i>Aligner</i> for identity mapping, followed by extensive residual Q-A-C learning based on this <i>Aligner</i>. Specifically, we formed the Q-A-A dataset by extracting partial data from the training dataset in proportions of 2%, 10%, 20%, and 50%. The table presents our control experiments with a 50K training dataset, showing that extracting 20% of the data (<i>i.e.</i>, 10K dataset size) for initial constant identity training yields relatively better results.
+                </figcaption>
+            </figure>
+            <hr>
+            <br>
+
             <!-- <div class="mx-auto" style="display: flex; justify-content: center; align-items: center;">
                 <img src="materials/test_gpt_4.gif" style="width: 450px; margin-right: 50px;">
                 <img src="materials/test_gpt_2.gif" style="width: 450px;">
@@ -1114,7 +1125,7 @@ pre {
                 </cite>
                 . Specifically, the reward model's task of mapping human preference data from discrete to continuous numerical space for optimization presents challenges in training methods and robustness. Unlike sequence-to-sequence (Seq2Seq) models with robust generalization in text space, numerical models such as reward models exhibit weaker text space generalization, contributing to RLHF's instability. <i>Aligner</i> introduces a new alignment paradigm, training a Seq2Seq model to identify the differences (residuals) between aligned and misaligned answers. <i>Aligner</i> offers several significant advantages over RLHF:
                 <p style="text-indent: 40px;">
-                    <b>1.<i>Aligner</i> achieves noticeable alignment with less training data.</b> For instance, with 20K training data, <i>Aligner</i> trained a 7B model, enhancing GPT-4's helpfulness by 12% and safety by 26%, and boosting Vicuna 33B's helpfulness and safety by 29% and 45.3%, respectively. 
+                    <b>1.<i>Aligner</i> achieves noticeable alignment with less training data.</b> For instance, with 50K training data, <i>Aligner</i> trained a 7B model, enhancing GPT-4's helpfulness by 19% and safety by 26%, and boosting Vicuna 33B's helpfulness and safety by 51% and 56%, respectively. 
                 </p>
                 <p style="text-indent: 40px;">
                     <b>2.<i>Aligner</i> offers a simpler training process.</b> It trains a Seq2Seq model for alignment, a more straightforward and manageable process than RLHF's complex reward model learning and RL fine-tuning. RLHF's engineering tuning intricacies and the inherent instability and hyperparameter sensitivity of RL algorithms make its implementation challenging, while <i>Aligner</i>'s simplified approach substantially reduces complexity. 
