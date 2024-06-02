@@ -537,7 +537,7 @@ pre {
 <script type="text/javascript" src="../js/hidebib.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,400italic,600italic,300,300italic' rel='stylesheet' type='text/css'>
     <head>
-        <title> Aligner : Achieving Efficient Alignment through Answer Correction</title>
+        <title> Achieving Efficient Alignment through Learned Correction</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:description" content="Aligner: Achieving Efficient Alignment through Answer Correction"/>
         <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
@@ -552,9 +552,10 @@ pre {
 <div class="container">
     <div class="paper-title">
     <h1> 
-        <i>Aligner</i> :
+        <!-- <i>Aligner</i> :
         Achieving Efficient Alignment through <br>
-        Weak-to-Strong Correction
+        Weak-to-Strong Correction -->
+        Achieving Efficient Alignment through Learned Correction
     </div>
 
     <div id="authors">
@@ -636,6 +637,8 @@ pre {
             <li><a href="#abstract">Abstract</a></li>
             <li><a href="#teaser-image">Paradigm</a></li>
             <li><a href="#method">Structure & Methodology</a></li>
+            <li><a href="#interp">Interpretability</a></li>
+            <li><a href="#application">Applications</a></li>
             <li><a href="#results">Results Overview</a></li>
             <li><a href="#detail">Detailed Results</a></li>
             <li><a href="#qa">FAQ</a></li>
@@ -740,8 +743,8 @@ pre {
 
             <br><br>
 
-            <figure class="mx-auto">
-<!--                <left><p>The proposed framework that composes a "generator" and an ensemble of "scorers" through iterative consensus enables zero-shot generalization across a variety of multimodal tasks.</p></left>-->
+            <!-- <figure class="mx-auto">
+
                 <center><img class="card-img-top" src="./materials/paradiam-new2.jpg" style="width:950px"></center>
                 <br>
                 <center><figcaption style="text-align: left;">
@@ -752,11 +755,11 @@ pre {
                     </cite> 
                     analogy emphasizes using weaker models to supervise stronger ones. Our approach composes weak and strong models to offer iteratively scalable supervision.
                 </figcaption></center>
-            </figure>
+            </figure> -->
 
-
+<!-- 
             <hr>
-            <br>
+            <br> -->
             
             <figure class="mx-auto">
                 <!--                <left><p>The proposed framework that composes a "generator" and an ensemble of "scorers" through iterative consensus enables zero-shot generalization across a variety of multimodal tasks.</p></left>-->
@@ -816,6 +819,25 @@ pre {
 <!--            </div>-->
  </section>
         
+    <section id="interp">
+        <hr>
+        <h2>Aligner Interpretability</h2>
+        <br><br>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <img src="images/intep_correction.png" style="width: 30%;">
+            <img src="images/intep_copy.png" style="width: 28.35%;">
+            <img src="images/intep_representation_control.png" style="width: 40%;">
+        </div>
+        <br>
+        <figcaption style="text-align: left;">
+            <strong>Interpretability of the <i>Aligner</i> module.</strong>
+            <br>
+            Interpretability experiment results on <i>Aligner</i>: <strong>(a)(b)</strong> The LAT scan graph of <i>Aligner</i>'s each layer when generating the first 20 output tokens for two given question-answer pairs. A higher value in the graph indicates a more active correction representation in that layer. Specifically, (a) exhibits raised activity, suggesting an enhanced correction action in the output, whereas (b) displays a tendency towards copying the original response. Moreover, the distinct differences between the two graphs are mainly observed in the early layers. This indicates that the decision regarding the degree of correction is made in the early layers of <i>Aligner</i>. <strong>(c)</strong> The control experiment shows the effectiveness of the extracted correction representation vector in modulating the <i>Aligner</i>'s correction behavior. The relationship between the Average Levenshtein Ratio and representation vector coefficients is approximately linear, with an \(R^2\) value of approximately 0.93.
+        </figcaption>
+    </section>
+
+
+
 
     <section id="results">
         <hr>
@@ -858,7 +880,7 @@ pre {
         <hr>
         <h2>Detailed Results</h2>
             <br><br>
-            <figure class="mx-auto">
+            <!-- <figure class="mx-auto">
                 <center><img class="card-img-top" src="materials/table_2.jpg" style="width:750px"></center>
                 <br>
                 <figcaption style="text-align: left;">
@@ -867,7 +889,7 @@ pre {
                 </figcaption>
             </figure>
             <hr>
-            <br>
+            <br> -->
             
             <figure class="mx-auto">
                 <center><img class="card-img-top" src="materials/Tab4_new.jpg" style="width:950px"></center>
@@ -917,7 +939,79 @@ pre {
     
     </section> 
 
+    <section id="application">
+        <hr>
+        <h2>Applications</h2>
+        <p style="font-size: 23px;"><b>Multi-round RLHF training via Aligner</b></p>
+        <p style="font-size: 20px;"><b>New Multi-round Training Pipeline</b></p>
+        <p>As a data augmentation tool, <i>Aligner</i> can enhance the upstream model's response \(A\) into an improved response \(A^*\), thereby forming a synthetic preference dataset. This dataset can be used to further train the upstream model via RLHF/DPO. Repeating this process allows for multi-round RLHF or DPO.</p>
+        <figure class="mx-auto">
+            <center><img class="card-img-top" src="images/multi_round_pipeline.png" style="width:950px"></center>
+            <br>
+            <figcaption style="text-align: left;">
+                This paradigm brings many <b>advantages</b>:
+                <ul>
+                    <li>The <i>Aligner</i> inherits the feature of transferring from the dispreferred distribution to the preferred distribution in the preference dataset.</li>
+                    <li><i>Aligner</i> modifies the upstream model to produce better answers, bringing the distribution of resulting preference dataset closer to the answer distribution of the upstream model. This effectively mitigates the reward model collapse problem caused by out-of-distribution (OOD) preference datasets.</li>
+                    <li>The <i>Aligner</i> serves as a synthetic data generator, providing an efficient and repeatable method for constructing preference datasets.</li>
+                </ul>
+            </figcaption>
+        </figure>
 
+        <p style="font-size: 20px;"><b>Performance</b></p>
+        <figure class="mx-auto">
+            <center><img class="card-img-top" src="images/multi_round_performance.png" style="width:950px"></center>
+            <br>
+            <figcaption style="text-align: left;">
+                We conducted three rounds of RLHF and DPO on Alpaca2-7B using the three-round preference dataset from PKU-SafeRLHF. Following this, we trained three rounds of <i>Aligner</i>s with the same three-round preference datasets, which were then employed to refine the upstream model and generate new preference datasets. These synthetic preference datasets were subsequently used to fine-tune the upstream model. As illustrated in Figure above, the introduction of <i>Aligner</i>-corrected new preference datasets enabled the upstream model to improve both utility and safety simultaneously. In contrast, a typical multi-round RLHF/DPO pipeline only enhances utility, leaving the responses unsafe.
+            </figcaption>
+        </figure>
+
+        <p style="font-size: 23px;"><strong>Weak-to-Strong Correction via Aligner</strong></p>
+        <p>As AI systems reach human-level performance across various tasks and undertake increasingly complex activities that are hard for humans to grasp, it becomes progressively challenging to provide ongoing, reliable feedback and ensure that their behaviors align with human intentions. This brings forth the significant issue of the Superalignment problem: <em>How can we deliver supervisory signals to advanced AI systems and ensure they remain aligned with human goals?</em><cite> 
+            AI Alignment: a Comprehensive Survey
+        </cite><cite>
+            Concrete problems in AI safety.
+        </cite>. <em>Weak-to-strong generalization</em> is a training paradigm that leverages supervisor signals provided by weak models to enhance the performance of strong models. The weak to strong paper<cite>
+            Weak-to-strong generalization: Eliciting strong capabilities with weak supervision.
+        </cite> has conducted preliminary trials in NLP classification, chess puzzles, and reward modeling tasks, observing positive gains by simply fine-tuning strong pre-trained models using pseudo-labels produced by weak models. This paradigm is analogous to the concept of "teaching" where the weak model instructs the strong one.</p>
+
+        <p style="font-size: 20px;"><strong>Illustration of our pipeline</strong></p>
+        <figure class="mx-auto">
+            <center><img class="card-img-top" src="images/w2s_illustration.png" style="width:950px"></center>
+            <br>
+            <figcaption style="text-align: left;">
+                <strong>Left:</strong> With the input of user prompts, The weak to strong paper<cite>
+                    Weak-to-strong generalization: Eliciting strong capabilities with weak supervision.
+                </cite> directly uses a weak model to generate supervisory labels to fine-tune the strong model. <strong>Right (Ours):</strong> Based on both user prompts and the response from the strong model, the weak model (i.e., <i>Aligner</i>) generates an improved response, which can serve as labels for fine-tuning the strong model.
+            </figcaption>
+        </figure>
+
+        <p style="font-size: 20px;"><strong>Pipeline of Weak-to-Strong Correction</strong></p>
+        <figure class="mx-auto">
+            <center><img class="card-img-top" src="images/w2s_paradigm.png" style="width:950px"></center>
+            <br>
+            <figcaption style="text-align: left;">
+                <strong>Left:</strong> With the input of user prompts, The weak to strong paper<cite>
+                    Weak-to-strong generalization: Eliciting strong capabilities with weak supervision.
+                </cite> directly uses a weak model to generate supervisory labels to fine-tune the strong model. <strong>Right (Ours):</strong> Based on both user prompts and the response from the strong model, the weak model (i.e., <i>Aligner</i>) generates an improved response, which can serve as labels for fine-tuning the strong model.
+            </figcaption>
+        </figure>
+
+        <p style="font-size: 20px;"><strong>Performance</strong></p>
+        <figure class="mx-auto">
+            <center><img class="card-img-top" src="tables/tab4_w2s.png" style="width:950px"></center>
+            <br>
+            <figcaption style="text-align: left;">
+                The table above shows that the weak labels from <i>Aligner</i>-7B and <i>Aligner</i>-13B improve the performance of Llama2 series strong model in all scenarios when used for finetuning an upstream model via SFT. Additional observations are as follows:
+                <ul>
+                    <li>The RLHF and DPO methods significantly improve the upstream model's performance on certain metrics. However, they do not completely surpass the strong model's original capabilities, particularly regarding decreased helpfulness. This decline is due to these models' tendency to conservative patterns (i.e., qualitative answers with less informational content). This suggests that the two-stage learning process of reward modeling and policy optimization, compared to SFT's direct label-based mapping, may introduce more feature noise and information loss, making accurate optimization more challenging.</li>
+                    <li>The RLHF method outperforms the DPO method in general. Given that the training data for weak-to-strong generalization is based on the output from the upstream model, subsequently aligned by <i>Aligner</i>-7B. The RLHF method shows better performance in this semi-online setting.</li>
+                    <li>The safety improvement is more substantial than that in helpfulness. Safety is easier to assess compared to helpfulness and can more readily be enhanced through simple rejection.</li>
+                </ul>
+            </figcaption>
+        </figure>
+    </section>
         <!-- <h2>Constraint Satisfaction</h2>
             <br><br>
             <div class="mx-auto">
@@ -1242,10 +1336,10 @@ pre {
             <details>
                 <summary style="font-size: 18px;"><b>Question #5: How does the <i>Weak-to-Strong generalization</i> work through <i>Aligner</i>?</b></summary>
                 <figure class="mx-auto">
-                    <center><img src="materials/Fig3_cap.jpg" class="card-img-top" style="width: 950px"></center>
+                    <center><img src="tables/tab4_w2s.png" class="card-img-top" style="width: 950px"></center>
                 </figure>
                 <figure class="mx-auto">
-                    <center><img src="materials/Tab2_cap.jpg" class="card-img-top" style="width: 550px"></center>
+                    <center><img src="images/w2s_illustration.png" class="card-img-top" style="width: 550px"></center>
                 </figure>
                 <br>
                 <br>
