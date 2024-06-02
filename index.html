@@ -537,7 +537,8 @@ pre {
 <script type="text/javascript" src="../js/hidebib.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,400italic,600italic,300,300italic' rel='stylesheet' type='text/css'>
     <head>
-        <title> Achieving Efficient Alignment through Learned Correction</title>
+        <!-- <title> Achieving Efficient Alignment through Learned Correction</title> -->
+        <title>Aligner Paper Website</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:description" content="Aligner: Achieving Efficient Alignment through Answer Correction"/>
         <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
@@ -555,13 +556,14 @@ pre {
         <!-- <i>Aligner</i> :
         Achieving Efficient Alignment through <br>
         Weak-to-Strong Correction -->
-        Achieving Efficient Alignment through Learned Correction
+        <!-- Achieving Efficient Alignment through Learned Correction -->
+        Aligner
     </div>
 
     <div id="authors">
         <center>
             <div class="author-row-new">
-                <a>Anonymous Authors*</a>
+                <!-- <a>Anonymous Authors*</a> -->
                 <!-- <a href="https://anuragajay.github.io/">Anurag Ajay*<sup>1,2</sup></a>,
                 <a href="https://yilundu.github.io/">Yilun Du*<sup>2</sup></a>,
                 <a href="https://scholar.google.com/citations?user=ynyPc1kAAAAJ&hl=en">Abhi Gupta*<sup>2</sup></a>,
@@ -576,7 +578,7 @@ pre {
             <span><sup>2</sup> MIT</span><br/>
         </div> -->
 
-        <br>*under review
+        <!-- <br>*under review -->
 
         <!-- <div class="affil-row">
             <div class="venue text-center"><b>ICML 2024 <FONT COLOR="RED">(Under Review)</FONT></b></div>
@@ -739,7 +741,7 @@ pre {
     
     <section id="method"/>
         <hr>
-        <h2><i>Aligner</i> Structure & Methodology</h2>
+        <h2>Overview of <i>Aligner</i> Methodologies</h2>
 
             <br><br>
 
@@ -766,7 +768,7 @@ pre {
                 <center><img class="card-img-top" src="materials/table_1.jpg" style="width:950px"></center>
                 <br>
                 <center><figcaption style="text-align: left;">
-                    <b>Overview of Alignment Methodologies</b><br>
+                    <!-- <b>Overview of Alignment Methodologies</b><br> -->
                      The <i>Aligner</i> module, noted for its flexibility, is not constrained by specific model parameters or configurations. In contrast, traditional methods such as RLHF are limited by their need for direct access to a model's parameters. With the growth of model sizes, such as those with over 70B parameters
                     <cite>
                         Llama 2: Open foundation and fine-tuned chat models.
@@ -895,7 +897,7 @@ pre {
                 <center><img class="card-img-top" src="materials/Tab4_new.jpg" style="width:950px"></center>
                 <br>
                 <figcaption style="text-align: left;">
-                    <b>Abalation Study: Different <i>Identity Mapping</i> Proportions</b><br>
+                    <b>Ablation Study: Different <i>Identity Mapping</i> Proportions</b><br>
                     We first trained an identity <i>Aligner</i> for identity mapping, followed by extensive residual Q-A-C learning based on this <i>Aligner</i>. Specifically, we formed the Q-A-A dataset by extracting partial data from the training dataset in proportions of 2%, 10%, 20%, and 50%. The table presents our control experiments with a 50K training dataset, showing that extracting 20% of the data (<i>i.e.</i>, 10K dataset size) for initial constant identity training yields relatively better results.
                 </figcaption>
             </figure>
@@ -921,8 +923,14 @@ pre {
                 <center><img class="card-img-top" src="materials/table_7.jpg" style="width:550px"></center>
                 <br>
                 <figcaption style="text-align: left;">
-                    <b>Abalation Study: <i>Aligner vs.</i> Prompt Engineering</b><br>
-                    Ablation study assessed <i>Aligners</i>'s effectiveness against methods like CAI, Self-Refine, and Self-Critique. This analysis revealed that <i>Aligners</i> notably surpasses these baselines in both helpfulness and harmlessness metrics. For a more detailed exploration of these findings, please see Appendix C.3.
+                    Comparison to Self-Refine, Critique Methods<br>
+                    Constitutional AI (CAI) <cite>
+                        Constitutional ai: Harmlessness from ai feedback.
+                    </cite>, Self-Critique <cite>
+                        Self-critiquing models for assisting human evaluators
+                    </cite>, and Self-Refine <cite>
+                        Self-Refine: Iterative Refinement with Self-Feedback
+                    </cite>, primarily utilize the self-critiquing and refining capabilities of LLMs to enhance their performance. We employ CAI prompts solely during the inference time of LLMs to encourage self-revision of their answers. As demonstrated in the table above, our method, <i>Aligner</i>, outperforms the baseline considering both helpfulness and harmlessness dimensions. Additionally, baseline methods typically require multiple dialogue iterations and extended context windows for prompt insertion and ongoing self-correction. This could result in longer inference times and considerable consumption of context window length.
                 </figcaption>
             </figure>
             <hr>
@@ -932,8 +940,14 @@ pre {
                 <center><img class="card-img-top" src="materials/table_8.jpg" style="width:550px"></center>
                 <br>
                 <figcaption style="text-align: left;">
-                    <b>Abalation Study: <i>Aligner vs.</i> SFT, RLHF and DPO</b><br>
-                    Alpaca-7B aligned using <i>Aligners</i> demonstrates superior performance when directly compared to models finetuned with baselines.
+                    Performance of <i>Aligner</i> on the Various Preference Datasets<br>
+                    To demonstrate the independence of <i>Aligner</i> from specific datasets, we utilized various open-source RLHF preference datasets. Specifically, we trained on HH-RLHF<cite>
+                        Training a helpful and harmless assistant with reinforcement learning from human feedback.
+                    </cite> and PKU-SafeRLHF <cite>
+                        Beavertails: Towards improved safety alignment of LLM via a human-preference dataset.
+                    </cite><cite>
+                        Safe rlhf: Safe reinforcement learning from human feedback.
+                    </cite> datasets and compared <i>Aligner</i> with SFT, RLHF, and DPO. After fine-tuning Alpaca-7B with SFT, RLHF, and DPO, we compare these models against the original Alpaca-7B corrected by <i>Aligner</i>. The experiment results (as shown in the table above) indicate that <i>Aligner</i>'s performance in enhancing the original model's capabilities is comparable to, or exceeds, that of the baseline methods. Notably, models finetuned with RLHF or DPO tend to generate either conservative answers or fail to recognize dangers while adding helpful information explicitly. Importantly, training with RLHF or DPO methods requires optimizing significantly more models and consuming more training resources than just training an <i>Aligner</i>, <i>e.g.</i>, for a 70B model, DPO needs 11.25 times and RLHF 22.5 times more resources than <i>Aligner</i>. 
                 </figcaption>
             </figure>
     
@@ -960,7 +974,7 @@ pre {
 
         <p style="font-size: 20px;"><b>Performance</b></p>
         <figure class="mx-auto">
-            <center><img class="card-img-top" src="images/multi_round_performance.png" style="width:950px"></center>
+            <center><img class="card-img-top" src="images/multi_round_performance.png" style="width:750px"></center>
             <br>
             <figcaption style="text-align: left;">
                 We conducted three rounds of RLHF and DPO on Alpaca2-7B using the three-round preference dataset from PKU-SafeRLHF. Following this, we trained three rounds of <i>Aligner</i>s with the same three-round preference datasets, which were then employed to refine the upstream model and generate new preference datasets. These synthetic preference datasets were subsequently used to fine-tune the upstream model. As illustrated in Figure above, the introduction of <i>Aligner</i>-corrected new preference datasets enabled the upstream model to improve both utility and safety simultaneously. In contrast, a typical multi-round RLHF/DPO pipeline only enhances utility, leaving the responses unsafe.
